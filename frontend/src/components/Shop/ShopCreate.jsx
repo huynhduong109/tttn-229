@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Country, State } from "country-state-city";
+import { State } from "country-state-city";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link, useNavigate } from "react-router-dom";

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { backend_url } from "../../server";
 import { getAllProductsShop } from "../../redux/actions/product";
 import { deleteProduct } from "../../redux/actions/product";
 import Loader from "../Layout/Loader";
@@ -41,6 +42,24 @@ const AllProducts = () => {
   const totalOrders = getAllProducts?.length;
 
   const columns = [
+    {
+      field: "image",
+      headerName: "Hình ảnh sản phẩm", // Tiêu đề cột hình ảnh
+      minWidth: 100, // Độ rộng tối thiểu của cột
+      flex: 0.7, // Tỷ lệ co và mở rộng của cột
+      sortable: false, // Không cho phép sắp xếp cột này
+      renderCell: (params) => {
+        const product = products.find((product) => product._id === params.id);
+        const ProductImage = product.images[0];
+        return (
+          <img
+            src={`${backend_url}/${ProductImage}`}
+            alt="Product"
+            style={{ width: "50px", height: "50px" }}
+          />
+        );
+      },
+    },
     { field: "id", headerName: "Mã sản phẩm", minWidth: 150, flex: 0.7 },
     {
       field: "name",

@@ -4,7 +4,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { server } from "../../server";
+import { backend_url, server } from "../../server";
+
 
 const AllEvents = () => {
   const [events, setEvents] = useState([]);
@@ -17,6 +18,24 @@ const AllEvents = () => {
   }, []);
 
   const columns = [
+    {
+      field: "image",
+      headerName: "Hình ảnh sản phẩm", // Tiêu đề cột hình ảnh
+      minWidth: 100, // Độ rộng tối thiểu của cột
+      flex: 0.7, // Tỷ lệ co và mở rộng của cột
+      sortable: false, // Không cho phép sắp xếp cột này
+      renderCell: (params) => {
+        const event = events.find((event) => event._id === params.id);
+        const ProductImage = event.images[0];
+        return (
+          <img
+            src={`${backend_url}/${ProductImage}`}
+            alt="Product"
+            style={{ width: "50px", height: "50px" }}
+          />
+        );
+      },
+    },
     { field: "id", headerName: "Mã sản phẩm", minWidth: 150, flex: 0.7 },
     {
       field: "name",

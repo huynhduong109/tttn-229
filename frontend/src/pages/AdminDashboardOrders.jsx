@@ -3,6 +3,7 @@ import AdminHeader from "../components/Layout/AdminHeader";
 import AdminSideBar from "../components/Admin/Layout/AdminSideBar";
 import { DataGrid } from "@material-ui/data-grid";
 import { useDispatch, useSelector } from "react-redux";
+import { backend_url } from "../server";
 import { getAllOrdersOfAdmin } from "../redux/actions/order";
 import ChartComponent from "../components/Admin/ChartComponent";
 import ChartComponentOrder from "../components/Admin/ChartComponentOrder";
@@ -49,6 +50,24 @@ const AdminDashboardOrders = () => {
   const totalAdminOrders = getAllOrders?.length;
 
   const columns = [
+    {
+      field: "image",
+      headerName: "Hình ảnh đơn hàng",
+      minWidth: 150,
+      flex: 0.7,
+      sortable: false,
+      renderCell: (params) => {
+        const order = adminOrders.find((order) => order._id === params.id);
+        const firstProductImage = order?.cart[0]?.images[0];
+        return (
+          <img
+            src={`${backend_url}/${firstProductImage}`}
+            alt="Product"
+            style={{ width: "50px", height: "50px" }}
+          />
+        );
+      },
+    },
     { field: "id", headerName: "Mã đơn hàng", minWidth: 150, flex: 0.7 },
 
     {

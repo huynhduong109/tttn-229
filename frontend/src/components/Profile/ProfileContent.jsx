@@ -207,6 +207,24 @@ const AllOrders = () => {
   }, []);
 
   const columns = [
+    {
+      field: "image",
+      headerName: "Hình ảnh đơn hàng",
+      minWidth: 150,
+      flex: 0.7,
+      sortable: false,
+      renderCell: (params) => {
+        const order = orders.find((order) => order._id === params.id);
+        const firstProductImage = order?.cart[0]?.images[0];
+        return (
+          <img
+            src={`${backend_url}/${firstProductImage}`}
+            alt="Product"
+            style={{ width: "50px", height: "50px" }}
+          />
+        );
+      },
+    },
     { field: "id", headerName: "Mã đơn hàng", minWidth: 150, flex: 0.7 },
 
     {
@@ -299,6 +317,24 @@ const AllRefundOrders = () => {
     orders && orders.filter((item) => item.status === "Processing refund");
 
   const columns = [
+    {
+      field: "image",
+      headerName: "Hình ảnh đơn hàng",
+      minWidth: 150,
+      flex: 0.7,
+      sortable: false,
+      renderCell: (params) => {
+        const order = orders.find((order) => order._id === params.id);
+        const firstProductImage = order?.cart[0]?.images[0];
+        return (
+          <img
+            src={`${backend_url}/${firstProductImage}`}
+            alt="Product"
+            style={{ width: "50px", height: "50px" }}
+          />
+        );
+      },
+    },
     { field: "id", headerName: "Mã đơn hàng", minWidth: 150, flex: 0.7 },
 
     {
@@ -388,6 +424,24 @@ const TrackOrder = () => {
   }, []);
 
   const columns = [
+    {
+      field: "image",
+      headerName: "Hình ảnh đơn hàng",
+      minWidth: 150,
+      flex: 0.7,
+      sortable: false,
+      renderCell: (params) => {
+        const order = orders.find((order) => order._id === params.id);
+        const firstProductImage = order?.cart[0]?.images[0];
+        return (
+          <img
+            src={`${backend_url}/${firstProductImage}`}
+            alt="Product"
+            style={{ width: "50px", height: "50px" }}
+          />
+        );
+      },
+    },
     { field: "id", headerName: "Mã đơn hàng", minWidth: 150, flex: 0.7 },
 
     {

@@ -81,7 +81,11 @@ const OrderDetails = () => {
           Mã đơn hàng: <span>#{data?._id?.slice(0, 8)}</span>
         </h5>
         <h5 className="text-[#00000084]">
-          Ngày đặt hàng: <span>{data?.createdAt?.slice(0, 10)}</span>
+          Ngày đặt hàng: <span>{new Date(data?.createdAt).toLocaleString("vi-VN", {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                    })}</span>
         </h5>
       </div>
 

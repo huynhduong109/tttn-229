@@ -48,7 +48,9 @@ const ShopInfo = ({ isOwner }) => {
       0
     );
 
-  const averageRating = totalRatings / totalReviewsLength || 0;
+    const avg = totalRatings / totalReviewsLength || 0;
+
+    const averageRating = avg.toFixed(1);
 
   return (
     <>

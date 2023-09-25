@@ -4,6 +4,7 @@ import { AiOutlineArrowRight, AiOutlineMoneyCollect } from "react-icons/ai";
 import { MdBorderClear } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
+import { backend_url } from "../../server";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersOfAdmin } from "../../redux/actions/order";
 import Loader from "../Layout/Loader";
@@ -80,6 +81,24 @@ const AdminDashboardMain = () => {
     }) + "";
 
   const columns = [
+    {
+      field: "image",
+      headerName: "Hình ảnh đơn hàng",
+      minWidth: 150,
+      flex: 0.7,
+      sortable: false,
+      renderCell: (params) => {
+        const order = adminOrders.find((order) => order._id === params.id);
+        const firstProductImage = order?.cart[0]?.images[0];
+        return (
+          <img
+            src={`${backend_url}/${firstProductImage}`}
+            alt="Product"
+            style={{ width: "50px", height: "50px" }}
+          />
+        );
+      },
+    },
     { field: "id", headerName: "Mã đơn hàng", minWidth: 150, flex: 0.7 },
 
     {
@@ -215,8 +234,8 @@ const AdminDashboardMain = () => {
           <br />
           <h3 className="text-[22px] font-Poppins pb-2">Đơn hàng gần nhất</h3>
           <div className="w-full min-h-[45vh] bg-white rounded">
-            <DataGrid
-              rows={row}
+          <DataGrid
+              rows={row} // Sử dụng danh sách đã sắp xếp
               columns={columns}
               pageSize={4}
               disableSelectionOnClick

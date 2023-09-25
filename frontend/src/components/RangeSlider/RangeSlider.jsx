@@ -1,20 +1,28 @@
 import { useState } from "react";
 import "./RangeSlider.css";
 import numeral from "numeral";
+
 function RangeSlider({ onChange }) {
   const [value, setValue] = useState("");
+  
   const handleChange = (event) => {
     const newValue = event.target.value;
     setValue(newValue);
     onChange(newValue);
   };
 
+  // Đặt các giá trị min, max và step
+  const min = 0;
+  const max = 50000000;
+  const step = 100000;
+
   return (
     <div className="range-slider">
       <input
         type="range"
-        min={0}
-        max={100000000}
+        min={min}
+        max={max}
+        step={step}
         value={value}
         onChange={handleChange}
       />

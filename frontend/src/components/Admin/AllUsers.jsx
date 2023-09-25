@@ -8,7 +8,7 @@ import { Button } from "@material-ui/core";
 import styles from "../../styles/styles";
 import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
-import { server } from "../../server";
+import { backend_url, server } from "../../server";
 import { toast } from "react-toastify";
 import ChartComponentUser from "./ChartComponentUser";
 
@@ -61,6 +61,25 @@ const AllUsers = () => {
   });
   const totalUsers = getAllUser?.length;
   const columns = [
+    {
+      field: "image",
+      headerName: "Ảnh đại diện",
+      minWidth: 150,
+      flex: 0.7,
+      sortable: false,
+      renderCell: (params) => {
+        const user = users.find((user) => user._id === params.id);
+        const userAvartar = user?.avatar
+        ; // Đặt tên hình ảnh seller tương ứng tại đây
+        return (
+          <img
+            src={`${backend_url}/${userAvartar}`}
+            alt="Seller"
+            style={{ width: "50px", height: "50px" }}
+          />
+        );
+      },
+    },
     { field: "id", headerName: "Mã người dùng", minWidth: 150, flex: 0.7 },
 
     {

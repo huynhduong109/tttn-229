@@ -1,18 +1,17 @@
 import { Button } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import React, { useEffect } from "react";
-import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
+import { AiOutlineEye } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getAllProductsShop } from "../../redux/actions/product";
-import { deleteProduct } from "../../redux/actions/product";
-import Loader from "../Layout/Loader";
+import { backend_url, server } from "../../server";
 import axios from "axios";
-import { server } from "../../server";
 import { useState } from "react";
 
 const AllProducts = () => {
   const [data, setData] = useState([]);
+  const { products, isLoading } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
   useEffect(() => {
     axios
       .get(`${server}/product/admin-all-products`, { withCredentials: true })
@@ -20,9 +19,27 @@ const AllProducts = () => {
         setData(res.data.products);
       });
   }, []);
-  console.log("dataProdutc", data);
+  console.log("dataProduct", data);
 
   const columns = [
+    {
+      field: "image",
+      headerName: "Hình ảnh sản phẩm",
+      minWidth: 150,
+      flex: 0.7,
+      sortable: false,
+      renderCell: (params) => {
+        const product = data.find((product) => product._id === params.id);
+        const productImage = product.images[0];
+        return (
+          <img
+            src={`${backend_url}/${productImage}`}
+            alt="Product"
+            style={{ width: "50px", height: "50px" }}
+          />
+        );
+      },
+    },
     { field: "id", headerName: "Mã sản phẩm", minWidth: 150, flex: 0.7 },
     {
       field: "name",
