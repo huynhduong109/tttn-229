@@ -88,7 +88,7 @@ const Checkout = () => {
           cart && cart.filter((item) => item.shopId === shopId);
 
         if (isCouponValid.length === 0) {
-          toast.error("Coupon code is not valid for this shop");
+          toast.error("Mã giảm giá không áp dụng cho cửa hàng này");
           setCouponCode("");
         } else {
           const eligiblePrice = isCouponValid.reduce(
@@ -102,7 +102,7 @@ const Checkout = () => {
         }
       }
       if (res.data.couponCode === null) {
-        toast.error("Coupon code doesn't exists!");
+        toast.error("Mã giảm giá không tồn tại!");
         setCouponCode("");
       }
     });

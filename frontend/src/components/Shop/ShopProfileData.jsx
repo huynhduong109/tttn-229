@@ -9,6 +9,8 @@ import Ratings from "../Products/Ratings";
 import { getAllEventsShop } from "../../redux/actions/event";
 import moment from "moment";
 import "moment/locale/vi";
+import ShopCoupons from "./ShopCoupons";
+
 
 const ShopProfileData = ({ isOwner }) => {
   const { products } = useSelector((state) => state.products);
@@ -126,7 +128,7 @@ const ShopProfileData = ({ isOwner }) => {
                   <p className="font-[400] text-[#000000a7]">{item?.comment}</p>
                   {/* Sử dụng moment.js để định dạng thời gian */}
                   <p className="text-[#000000a7] text-[14px]">
-                  {moment(item.createdAt).fromNow()}
+                    {moment(item.createdAt).fromNow()}
                     {" "}<span >-</span>{" "}
                     {new Date(item?.createdAt).toLocaleString("vi-VN", {
                       year: "numeric",
@@ -144,6 +146,11 @@ const ShopProfileData = ({ isOwner }) => {
               Không có đánh giá nào!
             </h5>
           )}
+        </div>
+      )}
+      {active === 4 && (
+        <div className="w-full">
+          <ShopCoupons shopId={id}/>
         </div>
       )}
     </div>

@@ -49,17 +49,23 @@ const ProductCard = ({ data, isEvent }) => {
     dispatch(addToWishlist(data));
   };
 
-  const addToCartHandler = (id) => {
+  const addToCartHandler = (id, nameShop) => {
     const isItemExists = cart && cart.find((i) => i._id === id);
+    const isNameShop = cart && cart.find((j) => j.shop.name !== nameShop);
+
     if (isItemExists) {
       toast.error("Sản phẩm đã có trong giỏ hàng");
     } else {
       if (data.stock < 1) {
         toast.error("Sản phẩm hiện hết hàng!");
       } else {
-        const cartData = { ...data, qty: 1 };
-        dispatch(addTocart(cartData));
-        toast.success("Thêm vào giỏ hàng thành công!");
+        if (isNameShop) {
+          toast.error("Giỏ hàng không tiếp nhận sản phẩm khác shop");
+        } else {
+          const cartData = { ...data, qty: 1 };
+          dispatch(addTocart(cartData));
+          toast.success("Thêm vào giỏ hàng thành công!");
+        }
       }
     }
   };
@@ -169,7 +175,7 @@ const ProductCard = ({ data, isEvent }) => {
           <AiOutlineShoppingCart
             size={25}
             className="cursor-pointer absolute right-2 top-24"
-            onClick={() => addToCartHandler(data._id)}
+            onClick={() => addToCartHandler(data._id, data.shop.name)}
             color="#444"
             title="Add to cart"
           />
