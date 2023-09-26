@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { backend_url, server } from "../../server";
 import axios from "axios";
+import { AiFillFileExcel } from "react-icons/ai";
+import * as XLSX from "xlsx";
+
 import { useState } from "react";
 
 const AllProducts = () => {
@@ -20,6 +23,41 @@ const AllProducts = () => {
       });
   }, []);
   console.log("dataProduct", data);
+
+  //export excel
+
+  // Tạo dữ liệu cho danh sách đơn hàng với các cột sản phẩm động
+  const allProducts = data?.map((allProduct) => {
+    return {
+      ["Mã sản phẩm"]: allProduct._id,
+      ["Tên sản phẩm"]: allProduct.name,
+      ["Loại sản phẩm"]: allProduct.category,
+      ["Giá gốc"]: allProduct.originalPrice.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }) + "",
+      ["Giá khuyến mãi"]: allProduct.discountPrice.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }) + "",
+      ["Lượt bán"]: allProduct.sold_out
+      ,
+      ["Kho"]: allProduct.stock,
+      ["Đánh giá"]: allProduct.ratings,
+    };
+  });
+
+  const handleExport = () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('vi-VN').replaceAll('/', '-'); // Chuyển ngày thành chuỗi có dạng MM-DD-YYYY
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(allProducts);
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    const fileName = `all-product-${formattedDate}.xlsx`;
+    XLSX.writeFile(wb, fileName);
+  };
 
   const columns = [
     {
@@ -123,6 +161,13 @@ const AllProducts = () => {
           disableSelectionOnClick
           autoHeight
         />
+        <button
+            onClick={handleExport}
+            className="text-green-500 px-4 py-2 rounded-lg hover:text-red-500 flex items-center ml-auto"
+          >
+            <AiFillFileExcel className="mr-2" /> {/* Thêm biểu tượng Excel */}
+            Export Excel
+          </button>
       </div>
     </>
   );

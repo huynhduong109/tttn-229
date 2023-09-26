@@ -43,7 +43,7 @@ const ProductsPage = () => {
 
     if (selectedProvince) {
       filteredData = filteredData.filter(
-        (product) => product?.shop?.address === selectedProvince
+        (product) => product.shop.address === selectedProvince
       );
     }
 
@@ -78,17 +78,17 @@ const ProductsPage = () => {
     ) {
       const d = allProducts;
       setData(d);
-      setFilteredCount(d.length); // Số sản phẩm ban đầu
+      setFilteredCount(d?.length); // Số sản phẩm ban đầu
     } else if (categoryData !== null) {
       const d =
         allProducts &&
         allProducts.filter((i) => i.category === categoryData);
       setData(d);
-      setFilteredCount(d.length); // Số sản phẩm sau khi lọc theo danh mục
+      setFilteredCount(d?.length); // Số sản phẩm sau khi lọc theo danh mục
     } else {
       filterProducts();
     }
-  }, [selectedProvince, minPrice, maxPrice, sortOption]);
+  }, [selectedProvince, minPrice, maxPrice, sortOption, allProducts]);
 
   return (
     <>
@@ -160,11 +160,11 @@ const ProductsPage = () => {
           <div className={`${styles.section}`}>
 
             <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12">
-              {data.map((product, index) => (
+              {data?.map((product, index) => (
                 <ProductCard data={product} key={index} />
               ))}
             </div>
-            {data.length === 0 ? (
+            {data?.length === 0 ? (
               <h1 className="text-center w-full pb-[100px] text-[20px]">
                 Không có sản phẩm nào được tìm thấy!
               </h1>

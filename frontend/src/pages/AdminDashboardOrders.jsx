@@ -7,6 +7,8 @@ import { backend_url } from "../server";
 import { getAllOrdersOfAdmin } from "../redux/actions/order";
 import ChartComponent from "../components/Admin/ChartComponent";
 import ChartComponentOrder from "../components/Admin/ChartComponentOrder";
+import { AiFillFileExcel } from "react-icons/ai";
+import * as XLSX from "xlsx";
 
 const AdminDashboardOrders = () => {
   const dispatch = useDispatch();
@@ -31,6 +33,46 @@ const AdminDashboardOrders = () => {
     setValEndDay("");
     setValStartDay("");
   };
+  //export excel
+
+  const generateProductColumns = (allOrder) => {
+    const productColumns = {};
+    allOrder.cart.forEach((product, index) => {
+      // Tên cột sẽ là "Sản phẩm 1", "Sản phẩm 2", "Sản phẩm 3", ...
+      productColumns[`Sản phẩm ${index + 1}`] = product.name;
+    });
+    return productColumns;
+  };
+
+  // Tạo dữ liệu cho danh sách đơn hàng với các cột sản phẩm động
+  const allOrders = adminOrders?.map((allOrder) => {
+    const productColumns = generateProductColumns(allOrder);
+    return {
+      ["Mã đơn hàng"]: allOrder._id,
+      ["Tình trạng"]: allOrder.status,
+      ["Số lượng"]: allOrder.cart.length,
+      ["Tổng tiền"]: allOrder.totalPrice.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }) + "",
+      ...productColumns, // Sử dụng toàn bộ các cột sản phẩm ở đây
+
+    };
+  });
+
+  const handleExport = () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('vi-VN').replaceAll('/', '-'); // Chuyển ngày thành chuỗi có dạng MM-DD-YYYY
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(allOrders);
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    const fileName = `all-order-${formattedDate}.xlsx`;
+    XLSX.writeFile(wb, fileName);
+  };
+
+
   const getAllOrders = adminOrders?.filter((item) => {
     const orderDate = new Date(item.createdAt.slice(0, 10));
     return (
@@ -163,6 +205,13 @@ const AdminDashboardOrders = () => {
                 disableSelectionOnClick
                 autoHeight
               />
+              <button
+            onClick={handleExport}
+            className="text-green-500 px-4 py-2 rounded-lg hover:text-red-500 flex items-center ml-auto"
+          >
+            <AiFillFileExcel className="mr-2" /> {/* Thêm biểu tượng Excel */}
+            Export Excel
+          </button>
               <div
                 style={{
                   display: "flex",

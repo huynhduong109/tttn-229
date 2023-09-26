@@ -18,6 +18,8 @@ import { addTocart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
 import Ratings from "./Ratings";
 import axios from "axios";
+import moment from "moment";
+import "moment/locale/vi";
 
 const ProductDetails = ({ data }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -127,9 +129,8 @@ const ProductDetails = ({ data }) => {
                   {data &&
                     data.images.map((i, index) => (
                       <div
-                        className={`${
-                          select === 0 ? "border" : "null"
-                        } cursor-pointer`}>
+                        className={`${select === 0 ? "border" : "null"
+                          } cursor-pointer`}>
                         <img
                           src={`${backend_url}${i}`}
                           alt=""
@@ -139,9 +140,8 @@ const ProductDetails = ({ data }) => {
                       </div>
                     ))}
                   <div
-                    className={`${
-                      select === 1 ? "border" : "null"
-                    } cursor-pointer`}></div>
+                    className={`${select === 1 ? "border" : "null"
+                      } cursor-pointer`}></div>
                 </div>
               </div>
               <div className="w-full 800px:w-[50%] pt-5">
@@ -157,9 +157,9 @@ const ProductDetails = ({ data }) => {
                   <h3 className={`${styles.price}`}>
                     {data.originalPrice
                       ? data.originalPrice.toLocaleString("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        }) + ""
+                        style: "currency",
+                        currency: "VND",
+                      }) + ""
                       : null}
                   </h3>
                 </div>
@@ -310,7 +310,7 @@ const ProductDetailsInfo = ({
         <div className="w-full min-h-[40vh] flex flex-col items-center py-3 overflow-y-scroll">
           {data &&
             data.reviews.map((item, index) => (
-              <div className="w-full flex my-2">
+              <div className="w-full flex my-2" key={index}>
                 <img
                   src={`${backend_url}/${item.user.avatar}`}
                   alt=""
@@ -319,9 +319,21 @@ const ProductDetailsInfo = ({
                 <div className="pl-2 ">
                   <div className="w-full flex items-center">
                     <h1 className="font-[500] mr-3">{item.user.name}</h1>
-                    <Ratings rating={data?.ratings} />
+                    <Ratings rating={item.rating} />
                   </div>
                   <p>{item.comment}</p>
+                  {/* Sử dụng moment.js để định dạng thời gian */}
+                  <p className="text-[#000000a7] text-[14px]">
+                    {moment(item.createdAt).fromNow()}
+                    {" "}<span >-</span>{" "}
+                    {new Date(item?.createdAt).toLocaleString("vi-VN", {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
+                  </p>
                 </div>
               </div>
             ))}
@@ -358,9 +370,11 @@ const ProductDetailsInfo = ({
             <div className="text-left">
               <h5 className="font-[600]">
                 Ngày tham gia:{" "}
-                <span className="font-[500]">
-                  {data.shop?.createdAt?.slice(0, 10)}
-                </span>
+                <span className="font-[500]">{new Date(data.shop?.createdAt).toLocaleString("vi-VN", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })}</span>
               </h5>
               <h5 className="font-[600] pt-3">
                 Tổng sản phẩm:{" "}

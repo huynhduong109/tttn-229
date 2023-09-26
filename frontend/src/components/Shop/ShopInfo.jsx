@@ -89,9 +89,14 @@ const ShopInfo = ({ isOwner }) => {
           </div>
           <div className="p-3">
             <h5 className="font-[600]">Ngày tham gia</h5>
-            <h4 className="text-[#000000b0]">
+            {/* <h4 className="text-[#000000b0]">
               {data?.createdAt?.slice(0, 10)}
-            </h4>
+            </h4> */}
+            <h4 className="text-[#000000b0]">{new Date(data?.createdAt).toLocaleString("vi-VN", {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                    })}</h4>
           </div>
           {isOwner && (
             <div className="py-3 px-4">

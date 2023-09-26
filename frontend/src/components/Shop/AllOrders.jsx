@@ -3,10 +3,11 @@ import { DataGrid } from "@material-ui/data-grid";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { backend_url} from "../../server";
+import { backend_url } from "../../server";
 import Loader from "../Layout/Loader";
 import { getAllOrdersOfShop } from "../../redux/actions/order";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { AiFillFileExcel } from "react-icons/ai";
 import "./AllOrder.css";
 import * as XLSX from "xlsx";
 
@@ -28,28 +29,43 @@ const AllOrders = () => {
   };
   //export excel
 
+  const generateProductColumns = (allOrder) => {
+    const productColumns = {};
+    allOrder.cart.forEach((product, index) => {
+      // Tên cột sẽ là "Sản phẩm 1", "Sản phẩm 2", "Sản phẩm 3", ...
+      productColumns[`Sản phẩm ${index + 1}`] = product.name;
+    });
+    return productColumns;
+  };
+
+  // Tạo dữ liệu cho danh sách đơn hàng với các cột sản phẩm động
   const allOrders = orders?.map((allOrder) => {
+    const productColumns = generateProductColumns(allOrder);
     return {
       ["Mã đơn hàng"]: allOrder._id,
       ["Tình trạng"]: allOrder.status,
-      ["Sản phẩm 1"]: allOrder.cart[0].name,
       ["Số lượng"]: allOrder.cart.length,
+      ["Tổng tiền"]: allOrder.totalPrice.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }) + "",
+      ...productColumns, // Sử dụng toàn bộ các cột sản phẩm ở đây
 
-      ["Tổng tiền"]:
-        allOrder.totalPrice.toLocaleString("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }) + "",
     };
   });
 
   const handleExport = () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('vi-VN').replaceAll('/', '-'); // Chuyển ngày thành chuỗi có dạng MM-DD-YYYY
+
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(allOrders);
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
-    XLSX.writeFile(wb, "my-data.xlsx");
+    const fileName = `all-order-${formattedDate}.xlsx`;
+    XLSX.writeFile(wb, fileName);
   };
+
 
 
   const getAllOrders = orders?.filter((item) => {
@@ -166,7 +182,7 @@ const AllOrders = () => {
         <Loader />
       ) : (
         <div className="w-full mx-8 pt-1 mt-10 bg-white">
-          <button onClick={handleExport}>Export Excel</button>
+
           <DataGrid
             rows={row}
             columns={columns}
@@ -174,6 +190,13 @@ const AllOrders = () => {
             disableSelectionOnClick
             autoHeight
           />
+          <button
+            onClick={handleExport}
+            className="text-green-500 px-4 py-2 rounded-lg hover:text-red-500 flex items-center ml-auto"
+          >
+            <AiFillFileExcel className="mr-2" /> {/* Thêm biểu tượng Excel */}
+            Export Excel
+          </button>
           <div
             style={{
               display: "flex",

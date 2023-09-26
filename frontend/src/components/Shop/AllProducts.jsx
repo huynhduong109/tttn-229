@@ -8,6 +8,8 @@ import { backend_url } from "../../server";
 import { getAllProductsShop } from "../../redux/actions/product";
 import { deleteProduct } from "../../redux/actions/product";
 import Loader from "../Layout/Loader";
+import { AiFillFileExcel } from "react-icons/ai";
+import * as XLSX from "xlsx";
 
 const AllProducts = () => {
   const [valStartDay, setValStartDay] = useState("");
@@ -32,6 +34,42 @@ const AllProducts = () => {
   const handleEndDayChange = (e) => {
     setValEndDay(e.target.value);
   };
+
+  //export excel
+
+  // Tạo dữ liệu cho danh sách đơn hàng với các cột sản phẩm động
+  const allProducts = products?.map((allProduct) => {
+    return {
+      ["Mã sản phẩm"]: allProduct._id,
+      ["Tên sản phẩm"]: allProduct.name,
+      ["Loại sản phẩm"]: allProduct.category,
+      ["Giá gốc"]: allProduct.originalPrice.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }) + "",
+      ["Giá khuyến mãi"]: allProduct.discountPrice.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }) + "",
+      ["Lượt bán"]: allProduct.sold_out
+      ,
+      ["Kho"]: allProduct.stock,
+      ["Đánh giá"]: allProduct.ratings,
+    };
+  });
+
+  const handleExport = () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('vi-VN').replaceAll('/', '-'); // Chuyển ngày thành chuỗi có dạng MM-DD-YYYY
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(allProducts);
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    const fileName = `all-product-${formattedDate}.xlsx`;
+    XLSX.writeFile(wb, fileName);
+  };
+
   const getAllProducts = products?.filter((item) => {
     const orderDate = new Date(item.createdAt.slice(0, 10));
     return (
@@ -63,7 +101,7 @@ const AllProducts = () => {
     { field: "id", headerName: "Mã sản phẩm", minWidth: 150, flex: 0.7 },
     {
       field: "name",
-      headerName: "Name",
+      headerName: "Tên sản phẩm",
       minWidth: 180,
       flex: 1.4,
     },
@@ -186,6 +224,13 @@ const AllProducts = () => {
             disableSelectionOnClick
             autoHeight
           />
+          <button
+            onClick={handleExport}
+            className="text-green-500 px-4 py-2 rounded-lg hover:text-red-500 flex items-center ml-auto"
+          >
+            <AiFillFileExcel className="mr-2" /> {/* Thêm biểu tượng Excel */}
+            Export Excel
+          </button>
           <div
             style={{
               display: "flex",

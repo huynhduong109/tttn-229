@@ -7,6 +7,8 @@ import ProductCard from "../Route/ProductCard/ProductCard";
 import { backend_url } from "../../server";
 import Ratings from "../Products/Ratings";
 import { getAllEventsShop } from "../../redux/actions/event";
+import moment from "moment";
+import "moment/locale/vi";
 
 const ShopProfileData = ({ isOwner }) => {
   const { products } = useSelector((state) => state.products);
@@ -30,28 +32,33 @@ const ShopProfileData = ({ isOwner }) => {
         <div className="w-full flex">
           <div className="flex items-center" onClick={() => setActive(1)}>
             <h5
-              className={`font-[600] text-[20px] ${
-                active === 1 ? "text-red-500" : "text-[#333]"
-              } cursor-pointer pr-[20px]`}
+              className={`font-[600] text-[20px] ${active === 1 ? "text-red-500" : "text-[#333]"
+                } cursor-pointer pr-[20px]`}
             >
               Sản phẩm
             </h5>
           </div>
           <div className="flex items-center" onClick={() => setActive(2)}>
             <h5
-              className={`font-[600] text-[20px] ${
-                active === 2 ? "text-red-500" : "text-[#333]"
-              } cursor-pointer pr-[20px]`}
+              className={`font-[600] text-[20px] ${active === 2 ? "text-red-500" : "text-[#333]"
+                } cursor-pointer pr-[20px]`}
             >
               Sự kiện đang chạy
+            </h5>
+          </div>
+          <div className="flex items-center" onClick={() => setActive(4)}>
+            <h5
+              className={`font-[600] text-[20px] ${active === 4 ? "text-red-500" : "text-[#333]"
+                } cursor-pointer pr-[20px]`}
+            >
+              Mã giảm giá
             </h5>
           </div>
 
           <div className="flex items-center" onClick={() => setActive(3)}>
             <h5
-              className={`font-[600] text-[20px] ${
-                active === 3 ? "text-red-500" : "text-[#333]"
-              } cursor-pointer pr-[20px]`}
+              className={`font-[600] text-[20px] ${active === 3 ? "text-red-500" : "text-[#333]"
+                } cursor-pointer pr-[20px]`}
             >
               Đánh giá
             </h5>
@@ -105,7 +112,7 @@ const ShopProfileData = ({ isOwner }) => {
         <div className="w-full">
           {allReviews &&
             allReviews.map((item, index) => (
-              <div className="w-full flex my-4">
+              <div className="w-full flex my-4" key={index}>
                 <img
                   src={`${backend_url}/${item.user.avatar}`}
                   className="w-[50px] h-[50px] rounded-full"
@@ -117,7 +124,18 @@ const ShopProfileData = ({ isOwner }) => {
                     <Ratings rating={item.rating} />
                   </div>
                   <p className="font-[400] text-[#000000a7]">{item?.comment}</p>
-                  <p className="text-[#000000a7] text-[14px]">{"2 phút trước"}</p>
+                  {/* Sử dụng moment.js để định dạng thời gian */}
+                  <p className="text-[#000000a7] text-[14px]">
+                  {moment(item.createdAt).fromNow()}
+                    {" "}<span >-</span>{" "}
+                    {new Date(item?.createdAt).toLocaleString("vi-VN", {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
+                  </p>
                 </div>
               </div>
             ))}
