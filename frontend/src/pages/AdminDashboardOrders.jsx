@@ -50,6 +50,7 @@ const AdminDashboardOrders = () => {
     return {
       ["Mã đơn hàng"]: allOrder._id,
       ["Tình trạng"]: allOrder.status,
+      ["Tên cửa hàng"]: allOrder.cart?.[0]?.shop?.name,
       ["Số lượng"]: allOrder.cart.length,
       ["Tổng tiền"]: allOrder.totalPrice.toLocaleString("vi-VN", {
         style: "currency",
@@ -168,7 +169,13 @@ const AdminDashboardOrders = () => {
             currency: "VND",
           }) + "",
         status: item?.status,
-        createdAt: item?.createdAt.slice(0, 10),
+        createdAt: new Date(item?.createdAt).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        }),
         ShopName: item?.cart?.[0]?.shop?.name,
       });
     });
@@ -183,7 +190,13 @@ const AdminDashboardOrders = () => {
             currency: "VND",
           }) + "",
         status: item.status,
-        createdAt: item?.createdAt.slice(0, 10),
+        createdAt: new Date(item?.createdAt).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        }),
         ShopName: item?.cart?.[0]?.shop?.name,
       });
     });
@@ -261,7 +274,7 @@ const AdminDashboardOrders = () => {
                   <DataGrid
                     rows={row1}
                     columns={columns}
-                    pageSize={10}
+                    pageSize={5}
                     disableSelectionOnClick
                     autoHeight
                   />

@@ -139,7 +139,11 @@ const AllUsers = () => {
         name: item.name,
         email: item.email,
         role: item.role,
-        joinedAt: item.createdAt.slice(0, 10),
+        joinedAt: new Date(item?.createdAt).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        }),
       });
     });
   getAllUser &&
@@ -149,7 +153,11 @@ const AllUsers = () => {
         name: item.name,
         email: item.email,
         role: item.role,
-        joinedAt: item.createdAt.slice(0, 10),
+        joinedAt: new Date(item?.createdAt).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        }),
       });
     });
 
@@ -161,7 +169,7 @@ const AllUsers = () => {
           <DataGrid
             rows={row}
             columns={columns}
-            pageSize={10}
+            pageSize={5}
             disableSelectionOnClick
             autoHeight
           />
@@ -213,7 +221,7 @@ const AllUsers = () => {
           <DataGrid
             rows={row1}
             columns={columns}
-            pageSize={10}
+            pageSize={5}
             disableSelectionOnClick
             autoHeight
           />

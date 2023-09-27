@@ -253,6 +253,14 @@ const AllOrders = () => {
       minWidth: 130,
       flex: 0.8,
     },
+    {
+      field: "created",
+      headerName: "Ngày đặt",
+      type: "number",
+      minWidth: 130,
+      flex: 0.8,
+    },
+    
 
     {
       field: " ",
@@ -288,6 +296,13 @@ const AllOrders = () => {
             currency: "VND",
           }) + "",
         status: item.status,
+        created: new Date(item?.createdAt).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        }),
       });
     });
 
@@ -363,6 +378,14 @@ const AllRefundOrders = () => {
       minWidth: 130,
       flex: 0.8,
     },
+    {
+      field: "created",
+      headerName: "Ngày đặt",
+      type: "number",
+      minWidth: 130,
+      flex: 0.8,
+    },
+    
 
     {
       field: " ",
@@ -398,6 +421,13 @@ const AllRefundOrders = () => {
             currency: "VND",
           }) + "",
         status: item.status,
+        created: new Date(item?.createdAt).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        }),
       });
     });
 
@@ -472,6 +502,15 @@ const TrackOrder = () => {
     },
 
     {
+      field: "created",
+      headerName: "Ngày đặt",
+      type: "number",
+      minWidth: 130,
+      flex: 0.8,
+    },
+    
+
+    {
       field: " ",
       flex: 1,
       minWidth: 150,
@@ -505,6 +544,13 @@ const TrackOrder = () => {
             currency: "VND",
           }) + "",
         status: item.status,
+        created: new Date(item?.createdAt).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        }),
       });
     });
 

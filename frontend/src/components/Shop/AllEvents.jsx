@@ -54,43 +54,57 @@ const AllEvents = () => {
       field: "price",
       headerName: "Giá ",
       minWidth: 100,
+      flex: 0.7,
+    },
+
+    {
+      field: "begin",
+      headerName: "Ngày bắt đầu",
+      type: "text",
+      minWidth: 130,
+      flex: 0.6,
+    },
+    // {
+    //   field: "Preview",
+    //   flex: 0.8,
+    //   minWidth: 100,
+    //   headerName: "Đánh giá",
+    //   type: "number",
+    //   sortable: false,
+    //   renderCell: (params) => {
+    //     const d = params.row.id;
+    //     const product_id = d.replace(/\s+/g, "-");
+    //     return (
+    //       <>
+    //         <Link to={`/product/${product_id}?isEvent=true`}>
+    //           <Button>
+    //             <AiOutlineEye size={20} />
+    //           </Button>
+    //         </Link>
+    //       </>
+    //     );
+    //   },
+    // },
+    {
+      field: "end",
+      headerName: "Ngày kết thúc",
+      type: "text",
+      minWidth: 130,
       flex: 0.6,
     },
     {
       field: "Stock",
       headerName: "Kho",
-      type: "number",
+      type: "text",
       minWidth: 80,
       flex: 0.5,
     },
-
     {
       field: "sold",
       headerName: "Đã bán",
-      type: "number",
-      minWidth: 130,
-      flex: 0.6,
-    },
-    {
-      field: "Preview",
-      flex: 0.8,
-      minWidth: 100,
-      headerName: "Đánh giá",
-      type: "number",
-      sortable: false,
-      renderCell: (params) => {
-        const d = params.row.name;
-        const product_name = d.replace(/\s+/g, "-");
-        return (
-          <>
-            <Link to={`/product/${product_name}`}>
-              <Button>
-                <AiOutlineEye size={20} />
-              </Button>
-            </Link>
-          </>
-        );
-      },
+      type: "text",
+      minWidth: 80,
+      flex: 0.7,
     },
     {
       field: "Delete",
@@ -123,6 +137,16 @@ const AllEvents = () => {
             style: "currency",
             currency: "VND",
           }) + "",
+        begin: new Date(item?.start_Date).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        }),
+        end: new Date(item?.Finish_Date).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        }),
         Stock: item.stock,
         sold: item.sold_out,
       });

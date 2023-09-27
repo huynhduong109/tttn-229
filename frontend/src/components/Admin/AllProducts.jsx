@@ -32,6 +32,7 @@ const AllProducts = () => {
       ["Mã sản phẩm"]: allProduct._id,
       ["Tên sản phẩm"]: allProduct.name,
       ["Loại sản phẩm"]: allProduct.category,
+      ["Tên cửa hàng"]: allProduct.shop?.name,
       ["Giá gốc"]: allProduct.originalPrice.toLocaleString("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -157,7 +158,7 @@ const AllProducts = () => {
         <DataGrid
           rows={row}
           columns={columns}
-          pageSize={10}
+          pageSize={7}
           disableSelectionOnClick
           autoHeight
         />

@@ -13,7 +13,7 @@ const ShopCoupons = ({ shopId }) => {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`${server}/coupon/get-coupon/${shopId}`, { withCredentials: true })
+      .get(`${server}/coupon/get-coupon-show/${shopId}`, { withCredentials: true })
       .then((res) => {
         setIsLoading(false);
         setCoupons(res.data.couponCodes);
@@ -46,17 +46,17 @@ const ShopCoupons = ({ shopId }) => {
       field: "name",
       headerName: "Mã giảm giá",
       minWidth: 180,
-      flex: 1.4,
+      flex: 0.8,
     },
     {
       field: "price",
-      headerName: "Tỉ lệ ",
+      headerName: "Tỉ lệ giảm giá",
       minWidth: 100,
-      flex: 0.6,
+      flex: 0.7,
     },
     {
       field: "Copy",
-      flex: 0.8,
+      flex: 0.5,
       minWidth: 120,
       headerName: "Sao chép",
       type: "number",

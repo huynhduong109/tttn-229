@@ -220,7 +220,7 @@ const AllProducts = () => {
           <DataGrid
             rows={row}
             columns={columns}
-            pageSize={10}
+            pageSize={4}
             disableSelectionOnClick
             autoHeight
           />
@@ -264,7 +264,7 @@ const AllProducts = () => {
               <DataGrid
                 rows={row1}
                 columns={columns}
-                pageSize={10}
+                pageSize={4}
                 disableSelectionOnClick
                 autoHeight
               />

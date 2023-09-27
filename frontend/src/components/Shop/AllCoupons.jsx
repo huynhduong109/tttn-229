@@ -89,6 +89,12 @@ const AllCoupons = () => {
       flex: 0.6,
     },
     {
+      field: "created",
+      headerName: "Ngày tạo",
+      minWidth: 100,
+      flex: 0.6,
+    },
+    {
       field: "Delete",
       flex: 0.8,
       minWidth: 120,
@@ -115,6 +121,11 @@ const AllCoupons = () => {
         id: item._id,
         name: item.name,
         price: item.value + " %",
+        created: new Date(item?.createdAt).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        }),
         sold: 10,
       });
     });
@@ -135,7 +146,7 @@ const AllCoupons = () => {
           <DataGrid
             rows={row}
             columns={columns}
-            pageSize={10}
+            pageSize={7}
             disableSelectionOnClick
             autoHeight
           />

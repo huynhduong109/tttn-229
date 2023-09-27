@@ -27,9 +27,8 @@ const EventCard = ({ active, data }) => {
   };
   return (
     <div
-      className={`w-full block bg-white rounded-lg ${
-        active ? "unset" : "mb-12"
-      } lg:flex p-2`}>
+      className={`w-full block bg-white rounded-lg ${active ? "unset" : "mb-12"
+        } lg:flex p-2`}>
       <div className="w-full lg:-w[50%] m-auto">
         <img src={`${backend_url}${data.images[0]}`} alt="" />
       </div>
@@ -66,6 +65,11 @@ const EventCard = ({ active, data }) => {
             onClick={() => addToCartHandler(data)}>
             Thêm vào giỏ hàng
           </div>
+          <p className="pr-3 font-[400] text-[17px] text-[#44a55e] ml-auto">
+            <span >Còn lại:</span>{" "}
+            <span style={{ color: 'red', fontWeight: 'bold' }}>{data.stock}</span>{" "}
+            <span >sản phẩm</span>
+          </p>
         </div>
       </div>
     </div>

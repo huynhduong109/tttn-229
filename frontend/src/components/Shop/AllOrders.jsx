@@ -126,6 +126,14 @@ const AllOrders = () => {
     },
 
     {
+      field: "created",
+      headerName: "Ngày đặt",
+      type: "number",
+      minWidth: 130,
+      flex: 0.8,
+    },
+
+    {
       field: " ",
       flex: 1,
       minWidth: 150,
@@ -160,6 +168,13 @@ const AllOrders = () => {
             currency: "VND",
           }) + "",
         status: item.status,
+        created: new Date(item?.createdAt).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        }),
       });
     });
   orders &&
@@ -173,6 +188,13 @@ const AllOrders = () => {
             currency: "VND",
           }) + "",
         status: item.status,
+        created: new Date(item?.createdAt).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        }),
       });
     });
 
@@ -186,7 +208,7 @@ const AllOrders = () => {
           <DataGrid
             rows={row}
             columns={columns}
-            pageSize={10}
+            pageSize={4}
             disableSelectionOnClick
             autoHeight
           />
@@ -232,7 +254,7 @@ const AllOrders = () => {
               <DataGrid
                 rows={row1}
                 columns={columns}
-                pageSize={10}
+                pageSize={4}
                 disableSelectionOnClick
                 autoHeight
               />

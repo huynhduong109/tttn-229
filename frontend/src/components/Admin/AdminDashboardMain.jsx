@@ -157,7 +157,13 @@ const AdminDashboardMain = () => {
             currency: "VND",
           }) + "",
         status: item?.status,
-        createdAt: item?.createdAt.slice(0, 10),
+        createdAt: new Date(item?.createdAt).toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        }),
         ShopName: item?.cart?.[0]?.shop?.name,
       });
     });
