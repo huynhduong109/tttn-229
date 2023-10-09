@@ -54,7 +54,7 @@ const CountDown = ({ data }) => {
       {timerComponents.length ? (
         timerComponents
       ) : (
-        <span className="text-[red] text-[25px]">Hết hạn</span>
+        <span className="text-[red] text-[25px]">Sự kiện đã kết thúc</span>
       )}
     </div>
   );
